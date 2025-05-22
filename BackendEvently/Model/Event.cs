@@ -2,5 +2,6 @@
 {
     public class Event
     {
+        private readonly string _id;
     }
 }
