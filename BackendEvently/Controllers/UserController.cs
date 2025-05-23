@@ -7,18 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendEvently.Controllers
 {
-    [Route("api/admin")]
+    [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
-    public class AdminController : ControllerBase
+    [Authorize]
+    public class UserController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        private readonly IEmailService _emailService;
 
-        public AdminController(ApplicationDBContext context, IEmailService emailService)
+        public UserController(ApplicationDBContext context)
         {
             _context = context;
-            _emailService = emailService;
         }
     }
 }

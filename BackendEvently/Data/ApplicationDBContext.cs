@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendEvently.Data
 {
-    public class AppilicationDBContext : DbContext
+    public class ApplicationDBContext : DbContext
     {
-        public AppilicationDBContext(DbContextOptions<AppilicationDBContext> options) : base(options) { }
+        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
