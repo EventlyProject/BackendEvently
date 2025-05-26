@@ -1,6 +1,21 @@
-﻿namespace BackendEvently.Controllers
+﻿using BackendEvently.Dtos;
+using BackendEvently.Service;
+using Evently.Shared.Service.InterfaceService;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BackendEvently.Controllers
 {
-    public class AuthenticationController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthenticationController : ControllerBase
     {
+        private readonly IJwtService _jwtService;
+        private readonly IEmailService _emailService;
+
+        public AuthenticationController(IJwtService jwtService, IEmailService emailService)
+        {
+            _jwtService = jwtService;
+            _emailService = emailService;
+        }
     }
 }
