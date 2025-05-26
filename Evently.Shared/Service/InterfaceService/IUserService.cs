@@ -10,7 +10,8 @@ namespace Evently.Shared.Service.InterfaceService
 {
     public interface IUserService
     {
-        Task<UserDto>RegisterAsync(RegisterDto registerDto);
-        Task<string> LoginAsync(LoginDto loginDto);
+        Task<IEnumerable<UserDto>>GetAllAsync();
+        Task<UserDto?>GetByIdAsync(int id);
+        Task<UserDto> RegisterAsync(RegisterDto dto);
     }
 }

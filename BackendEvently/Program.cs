@@ -1,5 +1,8 @@
 
+using BackendEvently.Service;
 using Evently.Shared.Mapping;
+using Evently.Shared.Service;
+using Evently.Shared.Service.InterfaceService;
 
 namespace BackendEvently
 {
@@ -9,13 +12,37 @@ namespace BackendEvently
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Add User Secrets (MUST be before we access configuration)
+            builder.Configuration.AddUserSecrets<Program>();
+
             // Add services to the container.
 
+
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddScoped<IEventService, EventService>();
+            builder.Services.AddScoped<ICategoryService , CategoryService>();
+            builder.Services.AddScoped<IParticipantService,ParticipantService>();
+            builder.Services.AddScoped<IUserService , UserService>();
+            builder.Services.AddScoped<IJwtService , JwtService>();
+
+            var Key = builder.Configuration["Jwt:Key"];
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!))
+                    };
+                });
 
             var app = builder.Build();
 
@@ -28,6 +55,8 @@ namespace BackendEvently
 
             app.UseHttpsRedirection();
 
+            // Enable Authentication and Authorization
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

@@ -11,7 +11,7 @@ namespace BackendEvently.Model
 
         [Required]
         [EmailAddress]
-        public string EmailAddress { get; set; } = string.Empty;
+        public string Emailaddress { get; set; } = string.Empty;
 
         [Required]
         public string PasswordHash { get; set; } = string.Empty;
