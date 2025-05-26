@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BackendEvently.Dtos;
+using Evently.Shared.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace Evently.Shared.Service.InterfaceService
 {
-    internal interface IUserService
+    public interface IUserService
     {
+        Task<UserDto>RegisterAsync(RegisterDto registerDto);
+        Task<string> LoginAsync(LoginDto loginDto);
     }
 }
