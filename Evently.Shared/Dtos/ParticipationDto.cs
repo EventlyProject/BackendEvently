@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Evently.Shared.Dtos
 {
-    internal class ParticipationDto
+    public class ParticipationDto
     {
+        public int EventId { get; set; }
+        public int UserId { get; set; }
     }
 }

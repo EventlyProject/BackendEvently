@@ -7,7 +7,7 @@ namespace BackendEvently.Model
         public int Id { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
-        public string logoUrl { get; set; } = string.Empty;
+        public string LogoUrl { get; set; } = string.Empty;
         [Required]
         public DateTime StartTime { get; set; }
         public string Details { get; set; } = string.Empty;
@@ -17,6 +17,6 @@ namespace BackendEvently.Model
         public string AccessRequirements { get; set; } = string.Empty;
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
-        public ICollection<EventPartipaint> Participants { get; set; } = new List<EventPartipaint>();
+        public ICollection<EventParticipant> Participants { get; set; } = new List<EventParticipant>();
     }
 }

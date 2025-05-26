@@ -1,5 +1,6 @@
 ﻿using BackendEvently.Dtos;
 using BackendEvently.Service;
+using Evently.Shared.Service.InterfaceService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendEvently.Controllers

@@ -1,6 +1,7 @@
 ﻿using BackendEvently.Data;
 using BackendEvently.Dtos;
 using BackendEvently.Model;
+using Evently.Shared.Service.InterfaceService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

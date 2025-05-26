@@ -8,6 +8,6 @@ namespace BackendEvently.Model
         [Required]
         public string Name { get; set; } = string.Empty;
 
-        public ICollection<Category> Events { get; set; } = new List<Category>();
+        public ICollection<Event> Events { get; set; } = new List<Event>();
     }
 }

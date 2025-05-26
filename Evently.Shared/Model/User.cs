@@ -18,6 +18,6 @@ namespace BackendEvently.Model
 
         public string Role { get; set; } = "User";
 
-        public ICollection<EventPartipaint> EventParticipations { get; set; } = new List<EventPartipaint>();
+        public ICollection<EventParticipant> EventParticipations { get; set; } = new List<EventParticipant>();
     }
 }
