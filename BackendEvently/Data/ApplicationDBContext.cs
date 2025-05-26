@@ -9,17 +9,17 @@ namespace BackendEvently.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
-        public DbSet<EventPartipaint> EventParticipants { get; set; }
+        public DbSet<EventParticipant> EventParticipants { get; set; }
         public DbSet<Category> Categoryes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EventPartipaint>()
+            modelBuilder.Entity<EventParticipant>()
                 .HasOne(ep => ep.User)
                 .WithMany(u => u.EventParticipations)
                 .HasForeignKey(ep => ep.UserId);
 
-            modelBuilder.Entity<EventPartipaint>()
+            modelBuilder.Entity<EventParticipant>()
                 .HasOne(ep => ep.Event)
                 .WithMany(e => e.Participants)
                 .HasForeignKey(ep => ep.EventId);

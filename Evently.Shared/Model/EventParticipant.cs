@@ -1,6 +1,6 @@
 ﻿namespace BackendEvently.Model
 {
-    public class EventPartipaint
+    public class EventParticipant
     {
         public int Id { get; set; }
         public int UserId { get; set; }
