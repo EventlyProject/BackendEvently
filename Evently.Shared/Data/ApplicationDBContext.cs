@@ -23,6 +23,10 @@ namespace BackendEvently.Data
                 .HasOne(ep => ep.Event)
                 .WithMany(e => e.Participants)
                 .HasForeignKey(ep => ep.EventId);
+
+            modelSBuilder.Entity<Event>()
+                .Property(e=>e.Price)
+                .
         }
     }
 }
