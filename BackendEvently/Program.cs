@@ -3,6 +3,9 @@ using BackendEvently.Service;
 using Evently.Shared.Mapping;
 using Evently.Shared.Service;
 using Evently.Shared.Service.InterfaceService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BackendEvently
 {
@@ -27,6 +30,9 @@ namespace BackendEvently
             builder.Services.AddScoped<IParticipantService,ParticipantService>();
             builder.Services.AddScoped<IUserService , UserService>();
             builder.Services.AddScoped<IJwtService , JwtService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IAdminService , AdminService>();
+
 
             var Key = builder.Configuration["Jwt:Key"];
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -40,7 +46,7 @@ namespace BackendEvently
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidAudience = builder.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key!))
                     };
                 });
 
