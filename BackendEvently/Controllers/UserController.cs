@@ -1,4 +1,5 @@
-﻿using BackendEvently.Data;
+﻿using AutoMapper.Configuration.Annotations;
+using BackendEvently.Data;
 using BackendEvently.Dtos;
 using BackendEvently.Model;
 using Evently.Shared.Service.InterfaceService;
@@ -34,7 +35,6 @@ namespace BackendEvently.Controllers
             if(user==null) return NotFound();
             return Ok(user);
         }
-
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
