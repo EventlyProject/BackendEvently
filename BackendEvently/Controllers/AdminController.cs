@@ -41,9 +41,33 @@ namespace BackendEvently.Controllers
         }
 
         [HttpDelete("user/{id}")]
-        public async Task<IAdminService>DeleteUser(int id)
+        public async Task<IActionResult>DeleteUser(int id)
         {
+            var result = await _userService.DeleteUserAsync(id);
+            if (!result) return NotFound("User not found.");
+            return Ok("User deleted.");
+        }
 
+        [HttpGet("events")]
+        public async Task<IActionResult> GetAllEvent()
+        {
+            var events = await _eventService.GetAllAsync();
+            return Ok(events);
+        }
+
+        [HttpGet("categoryes")]
+        public async Task<IActionResult> HetAllCategoryes()
+        {
+            var categoryes = await _categoryService.GetAllAsync();
+            return Ok(categoryes);
+        }
+
+        [HttpDelete("participations/{id}")]
+        public async Task<IActionResult> RemoveParticipation(int participationId)
+        {
+            var result = await _participantService.RemoveParticipationAsync(participationId);
+            if (!result) return NotFound("Participation not found");
+            return Ok("Participation removed");
         }
     }
 }

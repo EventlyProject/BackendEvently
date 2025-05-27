@@ -65,6 +65,7 @@ namespace Evently.Shared.Service
             var participation = await _context.EventParticipants.FindAsync(participationId);
             if (participation == null) return false;
             _context.EventParticipants.Remove(participation);
+            await _context.SaveChangesAsync();
             return true;
         }
     }

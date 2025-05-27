@@ -5,6 +5,7 @@ using BackendEvently.Model;
 using Evently.Shared.Dtos;
 using Evently.Shared.Service.InterfaceService;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,16 @@ namespace Evently.Shared.Service
                 .Select(p=>p.Event!)
                 .ToListAsync();
             return _mapper.Map<IEnumerable<EventDto>>(events);
+        }
+
+        public async Task<bool> RemoveParticipationAsync(int participationId)
+        {
+            var participation = await _context.EventParticipants.FindAsync(participationId);
+            if (participation == null) return false;
+
+            _context.EventParticipants.Remove(participation);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

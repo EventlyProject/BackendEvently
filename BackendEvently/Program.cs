@@ -1,9 +1,11 @@
 
+using BackendEvently.Data;
 using BackendEvently.Service;
 using Evently.Shared.Mapping;
 using Evently.Shared.Service;
 using Evently.Shared.Service.InterfaceService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -18,9 +20,8 @@ namespace BackendEvently
             // Add User Secrets (MUST be before we access configuration)
             builder.Configuration.AddUserSecrets<Program>();
 
+            // No changes to the rest of the file are needed if the above namespaces are already present.
             // Add services to the container.
-
-
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -33,6 +34,8 @@ namespace BackendEvently
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAdminService , AdminService>();
 
+            builder.Services.AddDbContext<ApplicationDBContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var Key = builder.Configuration["Jwt:Key"];
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

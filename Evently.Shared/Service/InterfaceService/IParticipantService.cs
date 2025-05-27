@@ -13,5 +13,6 @@ namespace Evently.Shared.Service.InterfaceService
         Task<ParticipationDto> RegisterAsync(int userId, int eventId);
         Task<IEnumerable<UserDto>> GetParticipantsByEventIdAsync(int eventId);
         Task<IEnumerable<EventDto>>GetEventsByUserIdAsync(int userId);
+        Task<bool> RemoveParticipationAsync(int participationId);
     }
 }
