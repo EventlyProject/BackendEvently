@@ -25,8 +25,9 @@ namespace BackendEvently.Data
                 .HasForeignKey(ep => ep.EventId);
 
             modelSBuilder.Entity<Event>()
-                .Property(e=>e.Price)
-                .
+    .       Property(e => e.Price)
+    .       HasColumnType("decimal(18,2)")
+    .       IsRequired(false);
         }
     }
 }
