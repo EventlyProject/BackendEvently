@@ -34,6 +34,7 @@ namespace BackendEvently
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAdminService , AdminService>();
 
+            //husk at tjække connection string i appsettings.json og rette den til din egen database
             builder.Services.AddDbContext<ApplicationDBContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
