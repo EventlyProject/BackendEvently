@@ -37,14 +37,14 @@ namespace BackendEvently.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateEventDto dto)
+        public async Task<IActionResult> Create(EventDto dto)
         {
             var created = await _eventService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id,CreateEventDto dto)
+        public async Task<IActionResult> Update(int id,EventDto dto)
         {
             var updated = await _eventService.UpdateAsync(id,dto);
             if(updated == null) return NotFound();

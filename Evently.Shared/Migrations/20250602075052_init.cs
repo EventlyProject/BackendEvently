@@ -54,7 +54,8 @@ namespace Evently.Shared.Migrations
                     MaxParticipants = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     AccessRequirements = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,6 +64,12 @@ namespace Evently.Shared.Migrations
                         name: "FK_Events_Categoryes_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categoryes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Events_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -85,7 +92,7 @@ namespace Evently.Shared.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_EventParticipants_Users_UserId",
                         column: x => x.UserId,
@@ -108,6 +115,11 @@ namespace Evently.Shared.Migrations
                 name: "IX_Events_CategoryId",
                 table: "Events",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_UserId",
+                table: "Events",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -120,10 +132,10 @@ namespace Evently.Shared.Migrations
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Categoryes");
 
             migrationBuilder.DropTable(
-                name: "Categoryes");
+                name: "Users");
         }
     }
 }

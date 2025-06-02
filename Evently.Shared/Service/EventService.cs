@@ -36,7 +36,7 @@ namespace Evently.Shared.Service
             return evt == null ? null : _mapper.Map<EventDto>(evt);
         }
 
-        public async Task<EventDto>CreateAsync(CreateEventDto dto)
+        public async Task<EventDto>CreateAsync(EventDto dto)
         {
             var evt = _mapper.Map<Event>(dto);
             _context.Events.Add(evt);
@@ -46,11 +46,15 @@ namespace Evently.Shared.Service
             return _mapper.Map<EventDto>(evt);
         }
 
-        public async Task<EventDto?> UpdateAsync(int id,CreateEventDto dto)
+        public async Task<EventDto?> UpdateAsync(int id,EventDto dto)
         {
             var evt = await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
             if (evt == null) return null;
 
+            if(evt.UserId != dto.UserId)
+            {   
+                throw new UnauthorizedAccessException("You are not authorized to update this event.");
+            }
             _mapper.Map(dto, evt);
             await _context.SaveChangesAsync();
 

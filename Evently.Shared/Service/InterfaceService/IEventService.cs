@@ -12,8 +12,8 @@ namespace Evently.Shared.Service.InterfaceService
     {
         Task<IEnumerable<EventDto>> GetAllAsync();
         Task<EventDto?>GetByIdAsync(int id);
-        Task<EventDto> CreateAsync(CreateEventDto dto);
-        Task<EventDto?>UpdateAsync(int id,CreateEventDto dto);
+        Task<EventDto> CreateAsync(EventDto dto);
+        Task<EventDto?>UpdateAsync(int id,EventDto dto);
         Task<bool> DeleteAsync(int id);
     }
 }

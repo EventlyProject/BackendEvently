@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BackendEvently.Dtos;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackendEvently.Model
 {
     public class Event
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
@@ -18,5 +21,9 @@ namespace BackendEvently.Model
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
         public ICollection<EventPartipaint> Participants { get; set; } = new List<EventPartipaint>();
+
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User? User { get; set; }
     }
 }
