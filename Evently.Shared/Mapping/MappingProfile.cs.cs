@@ -24,11 +24,11 @@ namespace Evently.Shared.Mapping
             // Evet
             CreateMap<Event, EventDto>()
                 .ForMember(dest=>dest.CategoryName,opt=>opt.MapFrom(scr=>scr.Category != null?scr.Category.Name:string.Empty));
-
             CreateMap<CreateEventDto, Event>();
 
             // Category
             CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>();
 
             // EventPartipaint
             CreateMap<EventPartipaint,ParticipationDto>()

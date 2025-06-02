@@ -17,13 +17,16 @@ namespace BackendEvently.Controllers
         private readonly IEventService _eventService;
         private readonly ICategoryService _categoryService;
         private readonly IParticipantService _participantService;
+        private readonly IAdminService _adminService;
 
-        public AdminController(IUserService userService, IEventService eventService,ICategoryService categoryService,IParticipantService participantService)
+        public AdminController(IUserService userService, IEventService eventService,ICategoryService categoryService,
+            IParticipantService participantService, IAdminService adminService)
         {
             _userService = userService;
             _eventService = eventService;
             _categoryService = categoryService;
             _participantService = participantService;
+            _adminService = adminService;
         }
 
         [HttpGet("users")]
@@ -36,8 +39,9 @@ namespace BackendEvently.Controllers
         [HttpPut("users/{id}/promote")]
         public async Task<IActionResult>PromoteUserToAdmin(int id)
         {
-            var result = await _userService.GetAllAsync();
-            return Ok(result);
+            var result = await _adminService.PromoteToAdminAsync(id);
+            if (!result) return NotFound("User not found.");
+            return Ok("User promoted to admin.");
         }
 
         [HttpDelete("user/{id}")]
