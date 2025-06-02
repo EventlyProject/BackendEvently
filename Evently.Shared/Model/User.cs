@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BackendEvently.Model
 {
@@ -16,9 +17,9 @@ namespace BackendEvently.Model
 
         [Required]
         public string PasswordHash { get; set; } = string.Empty;
-
+        [JsonIgnore]
         public string Role { get; set; } = "User";
-
+        [JsonIgnore]
         public ICollection<EventPartipaint> EventParticipations { get; set; } = new List<EventPartipaint>();
     }
 }

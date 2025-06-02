@@ -2,9 +2,11 @@
 using BackendEvently.Data;
 using BackendEvently.Dtos;
 using BackendEvently.Model;
+using Evently.Shared.Dtos;
 using Evently.Shared.Service.InterfaceService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +37,7 @@ namespace BackendEvently.Controllers
             if(user==null) return NotFound();
             return Ok(user);
         }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
@@ -47,6 +50,14 @@ namespace BackendEvently.Controllers
             {
                 return BadRequest(new {error=ex.Message});
             }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult>UpdateUser(int id, [FromBody]UpdateUserDto dto)
+        {
+            var updated = await _userService.UpdateUserAsync(id, dto);
+            if (updated == null) return NotFound("User not found.");
+            return Ok(updated);
         }
     }
 }

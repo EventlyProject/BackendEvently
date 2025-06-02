@@ -10,7 +10,7 @@ namespace BackendEvently.Model
         public int Id { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
-        public string logoUrl { get; set; } = string.Empty;
+        public string LogoUrl { get; set; } = string.Empty;
         [Required]
         public DateTime StartTime { get; set; }
         public string Details { get; set; } = string.Empty;

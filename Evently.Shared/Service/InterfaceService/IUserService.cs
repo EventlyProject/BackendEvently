@@ -14,5 +14,6 @@ namespace Evently.Shared.Service.InterfaceService
         Task<UserDto?>GetByIdAsync(int id);
         Task<UserDto> RegisterAsync(RegisterDto dto);
         Task<bool> DeleteUserAsync(int id);
+        Task<UserDto?> UpdateUserAsync(int id, UpdateUserDto dto);
     }
 }

@@ -23,8 +23,13 @@ namespace Evently.Shared.Mapping
 
             // Evet
             CreateMap<Event, EventDto>()
-                .ForMember(dest=>dest.CategoryName,opt=>opt.MapFrom(scr=>scr.Category != null?scr.Category.Name:string.Empty));
-            CreateMap<EventDto, Event>();
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(scr => scr.Category != null ? scr.Category.Name : string.Empty))
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.LogoUrl, opt => opt.MapFrom(src => src.LogoUrl));
+            CreateMap<EventDto, Event>()
+                .ForMember(dest=>dest.Id,opt=>opt.Ignore())
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.LogoUrl, opt => opt.MapFrom(src => src.LogoUrl));
 
             // Category
             CreateMap<Category, CategoryDto>();

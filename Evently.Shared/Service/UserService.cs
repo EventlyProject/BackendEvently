@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿ using AutoMapper;
 using BackendEvently.Data;
 using BackendEvently.Dtos;
 using BackendEvently.Model;
@@ -54,7 +54,19 @@ namespace Evently.Shared.Service
             await _context.SaveChangesAsync();
             return _mapper.Map<UserDto>(user);
         }
-
+        public async Task<UserDto?>UpdateUserAsync(int Id,UpdateUserDto dto)
+        {
+            var user = await _context.Users.FindAsync(Id);
+            if (user == null) return null;
+            user.Username = dto.Username;
+            user.Emailaddress = dto.Emailaddress;
+            if (!string.IsNullOrWhiteSpace(dto.Password))
+            {
+                user.PasswordHash = HashPassword(dto.Password);
+            }
+            await _context.SaveChangesAsync();
+            return _mapper.Map<UserDto>(user);
+        }
         public async Task<bool>DeleteUserAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
