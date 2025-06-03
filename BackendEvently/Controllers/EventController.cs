@@ -56,7 +56,7 @@ namespace BackendEvently.Controllers
         {
             var deleted = await _eventService.DeleteAsync(id);
             if (!deleted) return NotFound();
-            return NoContent();
+            return Ok("deleted");
         }
     }
 }

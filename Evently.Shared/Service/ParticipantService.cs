@@ -56,7 +56,7 @@ namespace Evently.Shared.Service
         public async Task<IEnumerable<EventDto>>GetEventsByUserIdAsync(int userId)
         {
             var events = await _context.EventParticipants
-                .Include(p=>p.EventId)
+                .Include(p=>p.Event)
                 .Where(p=>p.UserId == userId)
                 .Select(p=>p.Event!)
                 .ToListAsync();

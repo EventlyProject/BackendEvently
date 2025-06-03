@@ -43,7 +43,7 @@ namespace BackendEvently.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult>Update(int id, CategoryDto dto)
         {
             var updated = await _categoryService.UpdateAsync(id,dto);

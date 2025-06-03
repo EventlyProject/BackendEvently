@@ -48,7 +48,7 @@ namespace Evently.Shared.Service
             var category = await _context.Categoryes.FindAsync(id);
             if (category == null) return null;
 
-            _mapper.Map(dto, category);
+            category.Name = dto.Name;
             await _context.SaveChangesAsync();
             return _mapper.Map<CategoryDto>(category);
         }
