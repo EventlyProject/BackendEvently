@@ -66,7 +66,7 @@ namespace Evently.Shared.Service
             return true;
         }
 
-        // Removes a participation record by its ID. Returns true if successful.
+        //Removes a participation record by its ID.Returns true if successful.
         public async Task<bool> RemoveParticipationAsync(int participationId)
         {
             var participation = await _context.EventParticipants.FindAsync(participationId);

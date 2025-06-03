@@ -92,7 +92,7 @@ namespace Evently.Shared.Service
         public async Task<ParticipationDto> GetParticipationByIdAsync(int participationId)
         {
             // Query participation and include user and event details
-            var participation = _context.EventParticipants
+            var participation =await _context.EventParticipants
                 .Include(p => p.User)
                 .Include(p => p.Event)
                 .FirstOrDefaultAsync(p => p.Id == participationId);

@@ -1,4 +1,5 @@
-﻿using Evently.Shared.Service.InterfaceService;
+﻿using Evently.Shared.Service;
+using Evently.Shared.Service.InterfaceService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -10,10 +11,12 @@ namespace BackendEvently.Controllers
     public class ParticipantController :ControllerBase
     {
         private readonly IParticipantService _participantService;
+        private readonly IEventService _eventService;
         // Injects the participant service for participant operations
-        public ParticipantController(IParticipantService participantService)
+        public ParticipantController(IParticipantService participantService, IEventService eventService)
         {
             _participantService = participantService;
+            _eventService = eventService;
         }
         // Register a user for an event
         [HttpPost("Register")]
@@ -45,32 +48,27 @@ namespace BackendEvently.Controllers
             return Ok(events);
         }
         // Remove a participant from an event (only event owner or admin can do this)
-        [HttpDelete("{paricioationId}")]
-        [Authorize]
-        public async Task<IActionResult>RemoveParticipation(int paricioationId)
+        [Authorize] // Any authenticated user
+        [HttpDelete("events/{eventId}/participations/{participationId}")]
+        public async Task<IActionResult> RemoveParticipationAsOwner(int eventId, int participationId)
         {
-            // Extract user ID and role from JWT claims
-            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
-
-            if (userIdClaim == null || roleClaim == null)
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
                 return Unauthorized();
 
-            int userId = int.Parse(userIdClaim.Value);
-            string role = roleClaim.Value;
-            // Fetch the participation to check event ownership
-            var Paricipation = await _participantService.GetParticipationByIdAsync(paricioationId);
-            if (Paricipation == null)
-                return NotFound("Participation not found");
-            // Allow removal if user is admin or event owner
-            if (role=="Admin"|| Paricipation.EventId == userId)
-            {
-                var result = await _participantService.RemoveParticipationAsync(paricioationId);
-                if (!result) return NotFound("Participation not found");
-                return Ok("Paricipation removied");
-            }
-            // Forbid if not authorized
-            return Forbid();
+            int currentUserId = int.Parse(userIdClaim.Value);
+
+            // Get the event to check ownership
+            var eventDto = await _eventService.GetByIdAsync(eventId);
+            if (eventDto == null)
+                return NotFound("Event not found");
+
+            if (eventDto.UserId != currentUserId)
+                return Forbid();
+
+            var result = await _participantService.RemoveParticipationAsync(participationId);
+            if (!result) return NotFound("Participation not found");
+            return Ok("Participation removed");
         }
     }
 }

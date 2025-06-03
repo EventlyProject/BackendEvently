@@ -68,9 +68,10 @@ namespace BackendEvently.Controllers
         }
         // Remove a participant from an event by participation ID
         [HttpDelete("participations/{id}")]
-        public async Task<IActionResult> RemoveParticipation(int participationId)
+
+        public async Task<IActionResult> RemoveParticipation(int id)
         {
-            var result = await _participantService.RemoveParticipationAsync(participationId);
+            var result = await _participantService.RemoveParticipationAsync(id);
             if (!result) return NotFound("Participation not found");
             return Ok("Participation removed");
         }
