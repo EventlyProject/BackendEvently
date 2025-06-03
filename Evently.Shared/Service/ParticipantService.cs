@@ -72,5 +72,16 @@ namespace Evently.Shared.Service
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<ParticipationDto> GetParticipationByIdAsync(int participationId)
+        {
+            var participation = _context.EventParticipants
+                .Include(p => p.User)
+                .Include(p => p.Event)
+                .FirstOrDefaultAsync(p => p.Id == participationId);
+            if (participation == null)
+                return null;
+            return _mapper.Map<ParticipationDto>(participation);
+        }
     }
 }

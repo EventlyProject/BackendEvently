@@ -1,5 +1,7 @@
 ﻿using Evently.Shared.Service.InterfaceService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BackendEvently.Controllers
 {
@@ -40,6 +42,32 @@ namespace BackendEvently.Controllers
         {
             var events = await _participantService.GetEventsByUserIdAsync(userId);
             return Ok(events);
+        }
+
+        [HttpDelete("{paricioationId}")]
+        [Authorize]
+        public async Task<IActionResult>RemoveParticipation(int paricioationId)
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+
+            if (userIdClaim == null || roleClaim == null)
+                return Unauthorized();
+
+            int userId = int.Parse(userIdClaim.Value);
+            string role = roleClaim.Value;
+
+            var Paricipation = await _participantService.GetParticipationByIdAsync(paricioationId);
+            if (Paricipation == null)
+                return NotFound("Participation not found");
+
+            if(role=="Admin"|| Paricipation.EventId == userId)
+            {
+                var result = await _participantService.RemoveParticipationAsync(paricioationId);
+                if (!result) return NotFound("Participation not found");
+                return Ok("Paricipation removied");
+            }
+            return Forbid();
         }
     }
 }
