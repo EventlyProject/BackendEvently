@@ -2,6 +2,7 @@
 
 namespace BackendEvently.Dtos
 {
+    // Data Transfer Object for Event entity
     public class EventDto
     {
         public int Id {  get; set; }

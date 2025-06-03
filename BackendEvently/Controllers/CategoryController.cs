@@ -12,22 +12,23 @@ namespace BackendEvently.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-
+        // Injects the category service for category operations
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
-
-        [ HttpGet]
+        // Get a list of all categories
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var categoryes=await _categoryService.GetAllAsync();
             return Ok(categoryes);
         }
-
+        // Get a single category by its ID
         [HttpGet("{id}")]
         public async Task<IActionResult>GetById(int id)
         {
@@ -35,14 +36,14 @@ namespace BackendEvently.Controllers
             if(category == null) return NotFound();
             return Ok(category);
         }
-
+        // Create a new category
         [HttpPost]
         public async Task<IActionResult> Create(CategoryDto dto)
         {
             var created = await _categoryService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
-
+        // Update an existing category by its ID
         [HttpPut("{id}")]
         public async Task<IActionResult>Update(int id, CategoryDto dto)
         {
@@ -50,7 +51,7 @@ namespace BackendEvently.Controllers
             if(updated == null) return NotFound();
             return Ok(updated);
         }
-
+        // Delete a category by its ID
         [HttpDelete("{id}")]
         public async Task<IActionResult>Delete(int id)
         {

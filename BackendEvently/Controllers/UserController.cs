@@ -17,19 +17,19 @@ namespace BackendEvently.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-
+        // Injects the user service for user operations
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
-
+        // Get a list of all users
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAllAsync();
             return Ok(users);
         }
-
+        // Get a single user by their ID
         [HttpGet("{id}")]
         public async Task<IActionResult>GetById(int id)
         {
@@ -37,7 +37,7 @@ namespace BackendEvently.Controllers
             if(user==null) return NotFound();
             return Ok(user);
         }
-
+        // Register a new user
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
@@ -48,10 +48,11 @@ namespace BackendEvently.Controllers
             }
             catch (Exception ex)
             {
+                // Return 400 if registration fails (e.g., duplicate email)
                 return BadRequest(new {error=ex.Message});
             }
         }
-
+        // Update an existing user by their ID
         [HttpPut("{id}")]
         public async Task<IActionResult>UpdateUser(int id, [FromBody]UpdateUserDto dto)
         {

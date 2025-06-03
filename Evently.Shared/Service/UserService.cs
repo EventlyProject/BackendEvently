@@ -16,33 +16,38 @@ namespace Evently.Shared.Service
         private readonly ApplicationDBContext _context;
         private readonly IMapper _mapper;
 
+        // Constructor for UserService, injects the database context and AutoMapper
         public UserService(ApplicationDBContext context, IMapper mapper)
         {
-            _context=context;
-            _mapper=mapper;
+            _context = context;
+            _mapper = mapper;
         }
 
+        // Retrieves all users from the database and maps them to UserDto
         public async Task<IEnumerable<UserDto>> GetAllAsync()
         {
             var users = await _context.Users.ToListAsync();
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }
 
+        // Retrieves a user by their ID and maps to UserDto, returns null if not found
         public async Task<UserDto?> GetByIdAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
             return user == null ? null : _mapper.Map<UserDto>(user);
         }
 
+        // Registers a new user, hashes the password, and returns the created UserDto
         public async Task<UserDto> RegisterAsync(RegisterDto dto)
         {
-            // check if user exist
-            var exist = await _context.Users.AnyAsync(u=>u.Emailaddress == dto.Emailaddress);
+            // Check if a user with the same email already exists
+            var exist = await _context.Users.AnyAsync(u => u.Emailaddress == dto.Emailaddress);
             if (exist) throw new Exception("Email already registered");
 
-            // Hash password
+            // Hash the user's password
             var hashedPassword = HashPassword(dto.Password);
 
+            // Create a new User entity
             var user = new User
             {
                 Username = dto.Username,
@@ -50,16 +55,22 @@ namespace Evently.Shared.Service
                 PasswordHash = hashedPassword
             };
 
+            // Add the new user to the database
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return _mapper.Map<UserDto>(user);
         }
-        public async Task<UserDto?>UpdateUserAsync(int Id,UpdateUserDto dto)
+        // Updates an existing user's information, including password if provided
+        public async Task<UserDto?> UpdateUserAsync(int Id, UpdateUserDto dto)
         {
             var user = await _context.Users.FindAsync(Id);
             if (user == null) return null;
+
+            // Update username and email
             user.Username = dto.Username;
             user.Emailaddress = dto.Emailaddress;
+
+            // Update password if a new one is provided
             if (!string.IsNullOrWhiteSpace(dto.Password))
             {
                 user.PasswordHash = HashPassword(dto.Password);
@@ -67,7 +78,8 @@ namespace Evently.Shared.Service
             await _context.SaveChangesAsync();
             return _mapper.Map<UserDto>(user);
         }
-        public async Task<bool>DeleteUserAsync(int id)
+        // Deletes a user by ID, returns true if successful, false if user not found
+        public async Task<bool> DeleteUserAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return false;
@@ -76,6 +88,7 @@ namespace Evently.Shared.Service
             return true;
         }
 
+        // Hashes a password using SHA256 and returns the base64 string
         private string HashPassword(string password)
         {
             using var sha256 = SHA256.Create();

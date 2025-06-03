@@ -18,15 +18,16 @@ namespace BackendEvently
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add User Secrets (MUST be before we access configuration)
+            // Add User Secrets (for sensitive config in development)
             builder.Configuration.AddUserSecrets<Program>();
 
-            // No changes to the rest of the file are needed if the above namespaces are already present.
             // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+            // Register application services for dependency injection
             builder.Services.AddScoped<IEventService, EventService>();
             builder.Services.AddScoped<ICategoryService , CategoryService>();
             builder.Services.AddScoped<IParticipantService,ParticipantService>();
@@ -35,10 +36,12 @@ namespace BackendEvently
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IAdminService , AdminService>();
 
-            //husk at tjække connection string i appsettings.json og rette den til din egen database
+            // Register the database context with SQL Server provider
+            // Remember to check and update your connection string in appsettings.json
             builder.Services.AddDbContext<ApplicationDBContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Configure JWT authentication
             var Key = builder.Configuration["Jwt:Key"];
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -54,6 +57,7 @@ namespace BackendEvently
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key!))
                     };
                 });
+            // Configure Swagger to use JWT Bearer authentication
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BackendEvently", Version = "v1" });
@@ -86,20 +90,20 @@ namespace BackendEvently
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwagger();// Enable Swagger in development
+                app.UseSwaggerUI();// Enable Swagger UI in development
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();// Redirect HTTP requests to HTTPS
 
             // Enable Authentication and Authorization
             app.UseAuthentication();
             app.UseAuthorization();
 
 
-            app.MapControllers();
+            app.MapControllers();// Map controller routes
 
-            app.Run();
+            app.Run();// Start the application
         }
     }
 }

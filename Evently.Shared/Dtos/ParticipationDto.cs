@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Evently.Shared.Dtos
 {
+    // Data Transfer Object for event participation
     public class ParticipationDto
     {
         public int Id { get; set; }

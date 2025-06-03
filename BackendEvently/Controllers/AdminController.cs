@@ -19,6 +19,7 @@ namespace BackendEvently.Controllers
         private readonly IParticipantService _participantService;
         private readonly IAdminService _adminService;
 
+        // Constructor injects all required services for admin operations
         public AdminController(IUserService userService, IEventService eventService,ICategoryService categoryService,
             IParticipantService participantService, IAdminService adminService)
         {
@@ -28,14 +29,14 @@ namespace BackendEvently.Controllers
             _participantService = participantService;
             _adminService = adminService;
         }
-
+        // Get a list of all users
         [HttpGet("users")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllAsync();
             return Ok(users);
         }
-
+        // Promote a user to admin role
         [HttpPut("users/{id}/promote")]
         public async Task<IActionResult>PromoteUserToAdmin(int id)
         {
@@ -43,7 +44,7 @@ namespace BackendEvently.Controllers
             if (!result) return NotFound("User not found.");
             return Ok("User promoted to admin.");
         }
-
+        // Delete a user by ID
         [HttpDelete("user/{id}")]
         public async Task<IActionResult>DeleteUser(int id)
         {
@@ -51,21 +52,21 @@ namespace BackendEvently.Controllers
             if (!result) return NotFound("User not found.");
             return Ok("User deleted.");
         }
-
+        // Get a list of all events
         [HttpGet("events")]
         public async Task<IActionResult> GetAllEvent()
         {
             var events = await _eventService.GetAllAsync();
             return Ok(events);
         }
-
-        [HttpGet("categoryes")]
-        public async Task<IActionResult> HetAllCategoryes()
+        // Get a list of all categories
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetAllCategories()
         {
-            var categoryes = await _categoryService.GetAllAsync();
-            return Ok(categoryes);
+            var categories = await _categoryService.GetAllAsync();
+            return Ok(categories);
         }
-
+        // Remove a participant from an event by participation ID
         [HttpDelete("participations/{id}")]
         public async Task<IActionResult> RemoveParticipation(int participationId)
         {

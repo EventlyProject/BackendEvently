@@ -15,19 +15,19 @@ namespace BackendEvently.Controllers
     public class EventController : ControllerBase
     {
         private readonly IEventService _eventService;
-
+        // Injects the event service for event operations
         public EventController(IEventService eventService)
         {
             _eventService = eventService;
         }
-
+        // Get a list of all events
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var events = await _eventService.GetAllAsync();
             return Ok(events);
         }
-
+        // Get a single event by its ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -35,14 +35,14 @@ namespace BackendEvently.Controllers
             if(evt==null) return NotFound();
             return Ok(evt);
         }
-
+        // Create a new event
         [HttpPost]
         public async Task<IActionResult> Create(EventDto dto)
         {
             var created = await _eventService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
-
+        // Update an existing event by its ID
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id,EventDto dto)
         {
@@ -50,7 +50,7 @@ namespace BackendEvently.Controllers
             if(updated == null) return NotFound();
             return Ok(updated);
         }
-
+        // Delete an event by its ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
