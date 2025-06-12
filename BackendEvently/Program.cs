@@ -21,6 +21,15 @@ namespace BackendEvently
             // Add User Secrets (for sensitive config in development)
             builder.Configuration.AddUserSecrets<Program>();
 
+            builder.Services.AddCors(option =>{
+                option.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
+
             // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -95,6 +104,9 @@ namespace BackendEvently
             }
 
             app.UseHttpsRedirection();// Redirect HTTP requests to HTTPS
+
+            // Enable CORS before authentication/authorization
+            app.UseCors();
 
             // Enable Authentication and Authorization
             app.UseAuthentication();
