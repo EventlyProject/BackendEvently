@@ -1,5 +1,7 @@
 ﻿using BackendEvently.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace BackendEvently.Data
 {
@@ -199,11 +201,11 @@ namespace BackendEvently.Data
             // seed data user
             modelSBuilder.Entity<User>().HasData(
                 new User { Id = 1, Username = "admin", Emailaddress = "admin@evently.com", PasswordHash = "admin1234", Role = "admin" },
-                new User { Id = 2, Username = "alice", Emailaddress = "alice@example.com", PasswordHash = "password1", Role = "user" },
-                new User { Id = 3, Username = "bob", Emailaddress = "bob@example.com", PasswordHash = "password2", Role = "user" },
-                new User { Id = 4, Username = "carol", Emailaddress = "carol@example.com", PasswordHash = "password3", Role = "user" },
-                new User { Id = 5, Username = "dave", Emailaddress = "dave@example.com", PasswordHash = "password4", Role = "user" },
-                new User { Id = 6, Username = "eve", Emailaddress = "eve@example.com", PasswordHash = "password5", Role = "user" }
+                new User { Id = 2, Username = "alice", Emailaddress = "alice@example.com", PasswordHash = "password1234", Role = "user" },
+                new User { Id = 3, Username = "bob", Emailaddress = "bob@example.com", PasswordHash = "password1234", Role = "user" },
+                new User { Id = 4, Username = "carol", Emailaddress = "carol@example.com", PasswordHash = "password1234", Role = "user" },
+                new User { Id = 5, Username = "dave", Emailaddress = "dave@example.com", PasswordHash = "password1234", Role = "user" },
+                new User { Id = 6, Username = "eve", Emailaddress = "eve@example.com", PasswordHash = "password1234", Role = "user" }
             );
         }
 

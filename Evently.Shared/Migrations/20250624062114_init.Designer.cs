@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Evently.Shared.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250623091142_init")]
+    [Migration("20250624062114_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -355,7 +355,7 @@ namespace Evently.Shared.Migrations
                         {
                             Id = 2,
                             Emailaddress = "alice@example.com",
-                            PasswordHash = "password1",
+                            PasswordHash = "password1234",
                             Role = "user",
                             Username = "alice"
                         },
@@ -363,7 +363,7 @@ namespace Evently.Shared.Migrations
                         {
                             Id = 3,
                             Emailaddress = "bob@example.com",
-                            PasswordHash = "password2",
+                            PasswordHash = "password1234",
                             Role = "user",
                             Username = "bob"
                         },
@@ -371,7 +371,7 @@ namespace Evently.Shared.Migrations
                         {
                             Id = 4,
                             Emailaddress = "carol@example.com",
-                            PasswordHash = "password3",
+                            PasswordHash = "password1234",
                             Role = "user",
                             Username = "carol"
                         },
@@ -379,7 +379,7 @@ namespace Evently.Shared.Migrations
                         {
                             Id = 5,
                             Emailaddress = "dave@example.com",
-                            PasswordHash = "password4",
+                            PasswordHash = "password1234",
                             Role = "user",
                             Username = "dave"
                         },
@@ -387,7 +387,7 @@ namespace Evently.Shared.Migrations
                         {
                             Id = 6,
                             Emailaddress = "eve@example.com",
-                            PasswordHash = "password5",
+                            PasswordHash = "password1234",
                             Role = "user",
                             Username = "eve"
                         });

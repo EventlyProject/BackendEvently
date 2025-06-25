@@ -126,11 +126,11 @@ namespace Evently.Shared.Migrations
                 values: new object[,]
                 {
                     { 1, "admin@evently.com", "admin1234", "admin", "admin" },
-                    { 2, "alice@example.com", "password1", "user", "alice" },
-                    { 3, "bob@example.com", "password2", "user", "bob" },
-                    { 4, "carol@example.com", "password3", "user", "carol" },
-                    { 5, "dave@example.com", "password4", "user", "dave" },
-                    { 6, "eve@example.com", "password5", "user", "eve" }
+                    { 2, "alice@example.com", "password1234", "user", "alice" },
+                    { 3, "bob@example.com", "password1234", "user", "bob" },
+                    { 4, "carol@example.com", "password1234", "user", "carol" },
+                    { 5, "dave@example.com", "password1234", "user", "dave" },
+                    { 6, "eve@example.com", "password1234", "user", "eve" }
                 });
 
             migrationBuilder.InsertData(

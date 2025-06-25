@@ -17,14 +17,13 @@ namespace BackendEvently
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add User Secrets (for sensitive config in development)
             builder.Configuration.AddUserSecrets<Program>();
 
             builder.Services.AddCors(option =>{
                 option.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200")
+                    policy.WithOrigins("http://localhost:4200", "http://10.0.1.100:4200")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
