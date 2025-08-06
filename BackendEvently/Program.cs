@@ -23,10 +23,11 @@ namespace BackendEvently
             builder.Services.AddCors(option =>{
                 option.AddDefaultPolicy(policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200", "http://10.0.1.100:4200")
+                   //policy.WithOrigins("http://localhost:4200", "http://10.0.1.100:4200")
+                   policy.AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
-                });
+                }); 
             });
 
             // Add services to the container.
